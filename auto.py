@@ -12,19 +12,21 @@ Run = 10
 MaxRunNum = 1000
 sizeMatrix = np.zeros((MaxRunNum-1,MaxRunNum-1))
 
-toDir = 'mzks@lxmzks:~/to/'
+hostName = 'mzks@lxmzks'
+toDir = hostName + ':~/to/'
 fromDir = './from/'
+dataDisk = 'data' #Data5
 
 while True:
 
     #check capacity
-    availableSize = int(subprocess.check_output(['ssh','mzks@lxmzks', 'df', '--block-size=1G','|grep', 'data','|tr','-s','" "','|cut','-d','" "','-f','4']).decode("UTF-8"))
+    availableSize = int(subprocess.check_output(['ssh',hostName, 'df', '--block-size=1G','|grep', dataDisk,'|tr','-s','" "','|cut','-d','" "','-f','4']).decode("UTF-8"))
     if availableSize < 100:
         print('No enough capacity in transported disk')
         sys.exit()
 
     copyReady = False  #check existance of next run file
-    toFileList = subprocess.check_output(["ssh","mzks@lxmzks","ls","-la","to"]).decode('utf-8') #get remote file list
+    toFileList = subprocess.check_output(["ssh",hostName,"ls","-la","to"]).decode('utf-8') #get remote file list
 
     for sRun in reversed(range(1,MaxRunNum)):
         for ssRun in reversed(range(1,MaxRunNum)):

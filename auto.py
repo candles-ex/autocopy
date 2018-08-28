@@ -16,6 +16,13 @@ toDir = 'mzks@lxmzks:~/to/'
 fromDir = './from/'
 
 while True:
+
+    #check capacity
+    availableSize = int(subprocess.check_output(['ssh','mzks@lxmzks', 'df', '--block-size=1G','|grep', 'data','|tr','-s','" "','|cut','-d','" "','-f','4']).decode("UTF-8"))
+    if availableSize < 100:
+        print('No enough capacity in transported disk')
+        sys.exit()
+
     copyReady = False  #check existance of next run file
     toFileList = subprocess.check_output(["ssh","mzks@lxmzks","ls","-la","to"]).decode('utf-8') #get remote file list
 
@@ -45,5 +52,5 @@ while True:
                     sizeMatrix[sRun-1][ssRun-1] = size
 
     print('loop end ',datetime.datetime.now())
-    sleep(10)
+    sleep(600) 
 

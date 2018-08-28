@@ -1,7 +1,7 @@
 
 # CANDLES Data transportation tool
-Author  : K. Mizukoshi
-Date    : 2018 Aug. 28
+Author  : K. Mizukoshi  
+Date    : 2018 Aug. 28  
 
 ## Overview
 This script is to transport CANDLES raw data on time.
@@ -27,7 +27,7 @@ If you cannot find the process, see nohup.out.
 
 You can
 
-#. restart this script
-#. transport the data using autocopy.sh 
-#. report me (K. Mizukoshi mzks@ne.phys.sci.osaka-u.ac.jp) and exparts.
+1. restart this script
+1. transport the data using autocopy.sh 
+1. report me (K. Mizukoshi mzks@ne.phys.sci.osaka-u.ac.jp) and exparts.
 

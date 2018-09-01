@@ -1,16 +1,16 @@
 # auto.py
 # CANDLES auto data copy script
+# using python2 for DAQ module
 
 import sys
 import os
-import numpy as np
 from time import sleep
 import datetime
-import subprocess
+import commands
 
 Run = 10
 MaxRunNum = 1000
-sizeMatrix = np.zeros((MaxRunNum-1,MaxRunNum-1))
+sizeMatrix = [[ 0. for column in range(MaxRunNum-1)] for row in range(MaxRunNum-1)]
 
 hostName = 'mzks@lxmzks'
 toDir = hostName + ':~/to/'
@@ -20,13 +20,16 @@ dataDisk = 'data' #Data5
 while True:
 
     #check capacity
-    availableSize = int(subprocess.check_output(['ssh',hostName, 'df', '--block-size=1G','|grep', dataDisk,'|tr','-s','" "','|cut','-d','" "','-f','4']).decode("UTF-8"))
+    commandSize = 'ssh ' + hostName + ' df --block-size=1G | grep ' + dataDisk + '| tr -s " " | cut -d" " -f 4'
+    print commandSize
+    availableSize = int(commands.getoutput(commandSize))
     if availableSize < 100:
         print('No enough capacity in transported disk')
         sys.exit()
 
     copyReady = False  #check existance of next run file
-    toFileList = subprocess.check_output(["ssh",hostName,"ls","-la","to"]).decode('utf-8') #get remote file list
+    command1 = "ssh " + hostName + " ls -la to"
+    toFileList = commands.getoutput(command1)
 
     for sRun in reversed(range(1,MaxRunNum)):
         for ssRun in reversed(range(1,MaxRunNum)):
@@ -43,11 +46,11 @@ while True:
                     if copyReady == True:
                         if toFileList.find(filename) == -1:
                             print("copy", filename)
-                            subprocess.call(["scp",fromfile, tofile])
+                            commands.getoutput("scp "+ fromfile + " " + tofile)
                             if ssRun == 1:
                                 print("copy sgl and ped", filename)
-                                subprocess.call(["scp",fromDir+filenameSgl, toDir])
-                                subprocess.call(["scp",fromDir+filenamePed, toDir])
+                                commands.getoutput("scp "+fromDir+filenameSgl+ " " + toDir)
+                                commands.getoutput("scp "+fromDir+filenamePed+ " " + toDir)
                     else:
                         copyReady = True
                 else:

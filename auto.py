@@ -8,20 +8,21 @@ from time import sleep
 import datetime
 import commands
 
+# Directory setting
 Run = 10
+hostName = 'candles@kmcands'
+toDir = hostName + ':/Data5/candles/DATA/DaqmwData20130527/'
+fromDir = '/data/can3data20130510/'
+dataDisk = 'Data5'
+
+
 MaxRunNum = 1000
 sizeMatrix = [[ 0. for column in range(MaxRunNum-1)] for row in range(MaxRunNum-1)]
 
-hostName = 'mzks@lxmzks'
-toDir = hostName + ':~/to/'
-fromDir = './from/'
-dataDisk = 'data' #Data5
-
 while True:
 
-    #check capacity
+    # check capacity
     commandSize = 'ssh ' + hostName + ' df --block-size=1G | grep ' + dataDisk + '| tr -s " " | cut -d" " -f 4'
-    print commandSize
     availableSize = int(commands.getoutput(commandSize))
     if availableSize < 100:
         print('No enough capacity in transported disk')

@@ -11,7 +11,8 @@ import commands
 # Directory setting
 Run = 10
 hostName = 'kmds'
-toDir = hostName + ':/Data5/candles/DATA/DaqmwData20130527/'
+dirName = '/Data5/candles/DATA/DaqmwData20130527/'
+toDir = hostName + ':' + dirName
 fromDir = '/data/can3data20130510/'
 dataDisk = 'Data5'
 
@@ -29,7 +30,7 @@ while True:
         sys.exit()
 
     copyReady = False  #check existance of next run file
-    command1 = "ssh " + hostName + " ls -la to"
+    command1 = "ssh " + hostName + " ls -la " + dirName
     toFileList = commands.getoutput(command1)
 
     for sRun in reversed(range(1,MaxRunNum)):

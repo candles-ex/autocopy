@@ -10,7 +10,7 @@ import commands
 
 # Directory setting
 Run = 10
-hostName = 'candles@kmcands'
+hostName = 'kmds'
 toDir = hostName + ':/Data5/candles/DATA/DaqmwData20130527/'
 fromDir = '/data/can3data20130510/'
 dataDisk = 'Data5'

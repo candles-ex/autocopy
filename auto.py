@@ -10,11 +10,17 @@ import commands
 
 # Directory setting
 Run = 10
-hostName = 'kmds'
-dirName = '/Data5/candles/DATA/DaqmwData20130527/'
+# hostName = 'kmds'
+# dirName = '/Data5/candles/DATA/DaqmwData20130527/'
+# toDir = hostName + ':' + dirName
+# fromDir = '/data/can3data20130510/'
+# dataDisk = 'Data5'
+
+hostName = 'lxmzks'
+dirName = '/data/mzks/to/'
 toDir = hostName + ':' + dirName
-fromDir = '/data/can3data20130510/'
-dataDisk = 'Data5'
+fromDir = '/Users/mzks/candles/autocopy/from/'
+dataDisk = 'data'
 
 
 MaxRunNum = 1000
@@ -44,8 +50,8 @@ while True:
 
             if os.path.exists(fromfile) == True:
                 size = os.path.getsize(fromfile)
-                if sizeMatrix[sRun-1][ssRun-1] == size:
-                    if copyReady == True:
+                if copyReady == True:
+                    if sizeMatrix[sRun-1][ssRun-1] == size:
                         if toFileList.find(filename) == -1:
                             print("copy", filename)
                             commands.getoutput("scp "+ fromfile + " " + tofile)
@@ -54,10 +60,10 @@ while True:
                                 commands.getoutput("scp "+fromDir+filenameSgl+ " " + toDir)
                                 commands.getoutput("scp "+fromDir+filenamePed+ " " + toDir)
                     else:
-                        copyReady = True
+                        sizeMatrix[sRun-1][ssRun-1] = size
                 else:
-                    sizeMatrix[sRun-1][ssRun-1] = size
+                    copyReady = True
 
     print('loop end ',datetime.datetime.now())
-    sleep(600) 
+    sleep(1) 
 

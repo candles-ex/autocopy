@@ -54,5 +54,5 @@ while True:
                     sizeMatrix[sRun-1][ssRun-1] = size
 
     print('loop end ',datetime.datetime.now())
-    sleep(10) 
+    sleep(60) 
 

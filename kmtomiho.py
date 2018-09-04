@@ -1,6 +1,13 @@
-# auto.py
+#   ____    _    _   _ ____  _     _____ ____  
+#  / ___|  / \  | \ | |  _ \| |   | ____/ ___| 
+# | |     / _ \ |  \| | | | | |   |  _| \___ \ 
+# | |___ / ___ \| |\  | |_| | |___| |___ ___) |
+#  \____/_/   \_\_| \_|____/|_____|_____|____/ 
+#                                              
+# kmtomiho.py
 # CANDLES auto data copy script
-# using python2 for DAQ module
+# using python2 for kmcands
+
 
 import sys
 import os
@@ -14,7 +21,6 @@ hostName = 'miho'
 dirName = '/np1c/v01/candles/CANUG/RawData/DaqmwData2013.05.27/'
 toDir = hostName + ':' + dirName
 fromDir = '/Data5/candles/DATA/DaqmwData20130527/'
-dataDisk = 'Data5'
 
 
 MaxRunNum = 1000
@@ -22,14 +28,6 @@ sizeMatrix = [[ 0. for column in range(MaxRunNum-1)] for row in range(MaxRunNum-
 
 while True:
 
-    # # check capacity
-    # commandSize = 'ssh ' + hostName + ' df --block-size=1G | grep ' + dataDisk + '| tr -s " " | cut -d" " -f 4'
-    # availableSize = int(commands.getoutput(commandSize))
-    # if availableSize < 100:
-    #     print('No enough capacity in transported disk')
-    #     sys.exit()
-
-    copyReady = False  #check existance of next run file
     command1 = "ssh " + hostName + " ls -la " + dirName
     toFileList = commands.getoutput(command1)
 
@@ -44,19 +42,16 @@ while True:
 
             if os.path.exists(fromfile) == True:
                 size = os.path.getsize(fromfile)
-                if copyReady == True:
-                    if sizeMatrix[sRun-1][ssRun-1] == size:
-                        if toFileList.find(filename) == -1:
-                            print("copy", filename)
-                            commands.getoutput("scp "+ fromfile + " " + tofile)
-                            if ssRun == 1:
-                                print("copy sgl and ped", filename)
-                                commands.getoutput("scp "+fromDir+filenameSgl+ " " + toDir)
-                                commands.getoutput("scp "+fromDir+filenamePed+ " " + toDir)
-                    else:
-                        sizeMatrix[sRun-1][ssRun-1] = size
+                if sizeMatrix[sRun-1][ssRun-1] == size:
+                    if toFileList.find(filename) == -1:
+                        print("copy", filename)
+                        commands.getoutput("scp "+ fromfile + " " + tofile)
+                        if ssRun == 1:
+                            print("copy sgl and ped", filename)
+                            commands.getoutput("scp "+fromDir+filenameSgl+ " " + toDir)
+                            commands.getoutput("scp "+fromDir+filenamePed+ " " + toDir)
                 else:
-                    copyReady = True
+                    sizeMatrix[sRun-1][ssRun-1] = size
 
     print('loop end ',datetime.datetime.now())
     sleep(10) 

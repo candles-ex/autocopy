@@ -10,17 +10,11 @@ import commands
 
 # Directory setting
 Run = 10
-# hostName = 'kmds'
-# dirName = '/Data5/candles/DATA/DaqmwData20130527/'
-# toDir = hostName + ':' + dirName
-# fromDir = '/data/can3data20130510/'
-# dataDisk = 'Data5'
-
-hostName = 'lxmzks'
-dirName = '/data/mzks/to/'
+hostName = 'kmds'
+dirName = '/Data5/candles/DATA/DaqmwData20130527/'
 toDir = hostName + ':' + dirName
-fromDir = '/Users/mzks/candles/autocopy/from/'
-dataDisk = 'data'
+fromDir = '/data/can3data20130510/'
+dataDisk = 'Data5'
 
 
 MaxRunNum = 1000
@@ -65,5 +59,5 @@ while True:
                     copyReady = True
 
     print('loop end ',datetime.datetime.now())
-    sleep(1) 
+    sleep(60) 
 

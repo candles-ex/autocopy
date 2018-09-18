@@ -53,6 +53,16 @@ while True:
                                 print("copy sgl and ped", filename)
                                 commands.getoutput("scp "+fromDir+filenameSgl+ " " + toDir)
                                 commands.getoutput("scp "+fromDir+filenamePed+ " " + toDir)
+                        else:
+                            #remove script
+                            toMd5 = commands.getoutput("ssh " + hostName + "md5sum "+ dirName + fileName +"|cut -d' ' -f 1")
+                            print("toMd5", toMd5)
+                            fromMd5 = commands.getoutput("md5sum "+ fromfile +"|cut -d' ' -f 1")
+                            print("fromMd5", fromMd5)
+                            if(toMd5 == fromMd5):
+                                print("remove", filename)
+                                #remove
+
                     else:
                         sizeMatrix[sRun-1][ssRun-1] = size
                 else:

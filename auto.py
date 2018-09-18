@@ -55,13 +55,29 @@ while True:
                                 commands.getoutput("scp "+fromDir+filenamePed+ " " + toDir)
                         else:
                             #remove script
-                            toMd5 = commands.getoutput("ssh " + hostName + "md5sum "+ dirName + fileName +"|cut -d' ' -f 1")
-                            print("toMd5", toMd5)
+                            toMd5 = commands.getoutput("ssh " +hostName + " md5sum "+ dirName+ filename +"|cut -d' ' -f 1")
                             fromMd5 = commands.getoutput("md5sum "+ fromfile +"|cut -d' ' -f 1")
-                            print("fromMd5", fromMd5)
                             if(toMd5 == fromMd5):
-                                print("remove", filename)
                                 #remove
+                                print("remove", filename)
+				commands.getoutput("rm -f "+ fromfile)
+				print("rm -f "+ fromfile)
+
+				if ssRun == 1:
+                                    toMd5Sgl = commands.getoutput("ssh " +hostName + " md5sum "+ dirName+ filenameSgl +"|cut -d' ' -f 1")
+                                    fromMd5Sgl = commands.getoutput("md5sum "+ fromDir+filenameSgl +"|cut -d' ' -f 1")
+                                    if(toMd5Sgl == fromMd5Sgl):
+                                        #remove
+                                        print("remove", filenameSgl)
+			        	commands.getoutput("rm -f "+ fromDir+filenameSgl)
+				        print("rm -f "+ fromDir+filenameSgl)
+                                    toMd5Ped = commands.getoutput("ssh " +hostName + " md5sum "+ dirName+ filenamePed +"|cut -d' ' -f 1")
+                                    fromMd5Ped = commands.getoutput("md5sum "+ fromDir+filenamePed +"|cut -d' ' -f 1")
+                                    if(toMd5Ped == fromMd5Ped):
+                                        #remove
+                                        print("remove", filenamePed)
+			        	commands.getoutput("rm -f "+ fromDir+filenamePed)
+				        print("rm -f "+ fromDir+filenamePed)
 
                     else:
                         sizeMatrix[sRun-1][ssRun-1] = size
